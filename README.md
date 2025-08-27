@@ -27,5 +27,32 @@ pip freeze
 
 pip freeze > requirements.txt
 
+pip install -r requirements.txt
 
-    pip install -r requirements.txt
+### rotina comandos git
+
+
+## drive
+
+pip install mysql-connector-python
+
+```python
+def get_mysql_connection():
+    conn = mysql.connector.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    return conn
+
+@app.route('/')
+def index():
+    conn = get_mysql_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM sua_tabela")
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return str(results)
+```
