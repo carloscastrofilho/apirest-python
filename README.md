@@ -31,7 +31,7 @@ pip install -r requirements.txt
 
 ### rotina comandos git
 
-
+git push --set-upstream origin [branch]
 ## drive
 
 pip install mysql-connector-python
