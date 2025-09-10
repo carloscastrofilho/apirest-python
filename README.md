@@ -21,6 +21,15 @@ vamos utilizar a bliblioteca `venv`, para criar o ambiente utilize o comando aba
 ativar o ambiente virtual:
 `source ./myvenv/Scripts/activate`
 
+fazer instalação das dependencias no ambiente virtual
+```bash
+pip install -r requirements.txt
+``` 
+
+python.exe -m pip install --upgrade pip
+
+
+
 pip install flask
 
 pip freeze
@@ -30,6 +39,8 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 
 ### rotina comandos git
+
+pip install flask_cors
 
 git push --set-upstream origin [branch]
 ## drive
