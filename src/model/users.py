@@ -1,54 +1,115 @@
 from flask import jsonify, request
+from sqlalchemy import  text
+from  src.db import database
 
-# usuarios
-# Dados de exemplo (pode ser substituído por um banco de dados)
-listUsers = [
-        {"id": 1, "login": "jose", "password": "123"},
-        {"id": 2, "login": "maria", "password": "123"},
-]
+db_connect = database.get_db_connection()
+tableName = "users"
 
-
-# Rota para obter todos os itens
-#@app.route('/users', methods=['GET'])
 def get():
-    return jsonify(listUsers)
-
-# Rota para obter um item específico por ID
-#@app.route('/users/<int:item_id>', methods=['GET'])
-def getBy(item_id):
-    item = next((item for item in listUsers if item['id'] == item_id), None)
-    if item:
-        return jsonify(item)
-    return jsonify({"message": "Item não encontrado"}), 404
-
-# Rota para adicionar um novo item
-#@app.route('/users', methods=['POST'])
-def post():
-    new_item = request.json
-    if not new_item or 'login' not in new_item:
-        return jsonify({"message": "Dados inválidos"}), 400
+    try:
+       # recebe uma conexão com o banco 
+       db = db_connect.connect()
+       query_text = text( f"SELECT * FROM {tableName} ORDER BY id DESC")       
+       # data recebe resultado da consulta
+       data = db.execute(query_text)       
+       # Mapeia os resultados para uma lista de dicionários
+       result = [dict(zip(data.keys(), row)) for row in data]            
+       return jsonify(result), 200   
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500 
+    
+def getBy(value):  
+    try:
+       # recebe uma conexão com o banco 
+       db = db_connect.connect()
+       query_text = text( f"SELECT * FROM {tableName} WHERE id = :id ORDER BY id DESC")       
+       # data recebe resultado da consulta
+       data = db.execute(query_text, {"id": value} )       
+       # Mapeia os resultados para uma lista de dicionários
+       result = [dict(zip(data.keys(), row)) for row in data]  
+       if not result:
+            return jsonify({"error": f"Registro com ID {value} não encontrado"}), 404          
         
-    # Atribui um novo ID (simples, para exemplo)
-    new_item['id'] = len(listUsers) + 1 
-    listUsers.append(new_item)
-    return jsonify(new_item), 201
+       return jsonify(result), 200  
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
 
-# Rota para atualizar um item existente
-#@app.route('/users/<int:item_id>', methods=['PUT'])
-def put(item_id):
-    item_data = request.json
-    item = next((item for item in listUsers if item['id'] == item_id), None)
-    if item:
-        item.update(item_data)
-        return jsonify(item)
-    return jsonify({"message": "Item não encontrado"}), 404
 
-# Rota para deletar um item
-#@app.route('/users/<int:item_id>', methods=['DELETE'])
-def delete(item_id):
-    global listUsers # Permite modificar a lista global
-    original_len = len(listUsers)
-    listUsers = [item for item in listUsers if item['id'] != item_id]
-    if len(listUsers) < original_len:
-        return jsonify({"message": "Item deletado com sucesso"}), 200
-    return jsonify({"message": "Item não encontrado"}), 404
+
+def delete(value):  
+    try:
+       # recebe uma conexão com o banco 
+       db = db_connect.connect()
+       query_text = text( f"DELETE FROM {tableName} WHERE id = :id")       
+       # data recebe resultado da consulta
+       data = db.execute(query_text, {"id": value} )  
+       db.commit()  
+       if data.rowcount == 0 :
+            return jsonify({"error": f"Registro com ID {value} não encontrado"}), 404          
+        
+       return jsonify({"sucesso": f"Registro apagado com sucesso"}), 204          
+   
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
+
+def post():  
+    try:
+        # recebe uma conexão com o banco 
+        db = db_connect.connect()       
+        payload = request.get_json(force=True)
+        
+        login = payload.get('login')
+        password = payload.get('password')
+        name = payload.get('name')
+        
+        
+        query_text = text( f"""INSERT INTO {tableName} 
+                          ( login, password, name 
+                           ) VALUES (
+                            :login, :password, :name )
+                         """)       
+        # data recebe resultado da consulta
+        data = db.execute(query_text, {"login": login , "password": password , "name": name } )          
+        db.commit()          
+        new_id = data.lastrowid        
+        return jsonify({"message": "registro criado com sucesso", "id": new_id}), 201
+            
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
+       
+
+def put(idvalue):  
+    try:
+        # recebe uma conexão com o banco 
+        db = db_connect.connect()       
+        payload = request.get_json(force=True)
+        
+        login = payload.get('login')
+        password = payload.get('password')
+        name = payload.get('name')
+        active = payload.get('active')
+        
+        
+        query_text = text( f"""UPDATE {tableName} 
+                          SET login = :login , password = :password, name = :name , active  = :active
+                        WHERE id = :id  
+                         """)       
+        # data recebe resultado da consulta
+        data = db.execute(query_text, {"login": login , "password": password , "name": name , "id": idvalue , "active": active } )          
+        db.commit()
+                  
+        if data.rowcount == 0:
+            return jsonify({"error": f"Registro com ID {idvalue} não encontrado para atualização"}), 403
+                 
+        return jsonify({"message": f"Registro ID {idvalue} atualizado com sucesso"}), 203
+            
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500    
+
+
+# def get():
+#     try:
+#        #codigo metodo
+#        return 
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500

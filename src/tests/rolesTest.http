@@ -1,0 +1,27 @@
+GET http://localhost:5000/roles
+
+###
+GET http://localhost:5000/roles/2
+
+###
+POST http://localhost:5000/roles
+Content-Type: application/json
+
+{
+
+    "role": "USER"
+}
+
+###
+PUT http://localhost:5000/roles/1
+Content-Type: application/json
+
+{
+    "active": 0,
+    "login": "teste@teste.com",
+    "name": "teste",
+    "password": "123"
+  }
+
+###
+DELETE  http://localhost:5000/roles/12

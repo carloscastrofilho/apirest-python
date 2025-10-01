@@ -1,9 +1,17 @@
 import mysql.connector
 from mysql.connector import Error
 from sqlalchemy import create_engine
+from sqlalchemy import  text
+
+database_name = "agendai"
+database_host = "localhost"
+database_user = "root"
+database_psw = ""
+database_type = "mysql"
 
 def get_db_connection():
-    return create_engine('mysql+mysqlconnector://root:@localhost/agendai')
+    conectionString = f"mysql+mysqlconnector://{database_user}:@{database_host}/{database_name}"
+    return create_engine( conectionString)
 
 def testar_conexao():
     """Testa a conexão com o servidor MySQL e a existência do banco de dados 'agendai'."""
@@ -41,16 +49,6 @@ def testar_conexao():
         if 'conn' in locals() and conn.is_connected():
             conn.close()
             print("Conexão com o MySQL fechada.")
-
-# @app.route('/')
-# def index():
-#     conn = get_mysql_connection()
-#     cursor = conn.cursor()
-#     cursor.execute("SELECT * FROM users")
-#     results = cursor.fetchall()
-#     cursor.close()
-#     conn.close()
-#     return str(results)
 
 # Chamada da função para testar
 if __name__ == '__main__':

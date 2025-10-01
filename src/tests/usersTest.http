@@ -1,7 +1,7 @@
 GET http://localhost:5000/users
 
 ###
-GET http://localhost:5000/users/2
+GET http://localhost:5000/users/19
 
 ###
 POST http://localhost:5000/users
@@ -9,20 +9,33 @@ Content-Type: application/json
 
 {
 
-    "login": "carlos",
-    "password": "123"
+    "login": "teste-33@teste.com",
+    "password": "123",
+    "name" : "teste-33"
   }
 
 ###
-PUT http://localhost:5000/users/2
+PUT http://localhost:5000/users/19
 Content-Type: application/json
 
 {
-  "description": "teste inclusao 2",
-  "id": 2,
-  "name": "teste 2"
-}
-
+    "active": 0,
+    "id": 19,
+    "login": "teste-3@teste.com",
+    "name": "teste-3",
+    "password": "123456"
+  }
 
 ###
-DELETE  http://localhost:5000/users/1
+DELETE  http://localhost:5000/users/20
+
+
+
+
+  {
+    "active": 1,
+    "id": 1,
+    "login": "carlos.filho@teste.com",
+    "name": "carlos filho",
+    "password": "123"
+  }
