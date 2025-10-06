@@ -21,7 +21,7 @@ route_map = {
 @app.route('/<resource>', methods=["GET", "POST"])
 @app.route('/<resource>/<int:id>', methods=["GET", "PUT", "DELETE"])
 def handle_resource(resource, id=None):
-    if resource in route_map:
+    if resource in routes:
         if request.method == "GET":
             if id is not None:
                 return route_map[resource].getBy(id)
