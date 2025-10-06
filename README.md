@@ -23,26 +23,62 @@ ativar o ambiente virtual:
 
 fazer instalação das dependencias no ambiente virtual
 ```bash
-pip install -r requirements.txt
+    pip install -r requirements.txt
 ``` 
 
-python.exe -m pip install --upgrade pip
+comando geralmente indica a rodar para atualizar a versão do pip no nosso ambiente virutal
+``` bash
+    python.exe -m pip install --upgrade pip
+```
+
+comando utilizado para a instalação de uma dependencia do python
+
+pip install <dependencia>
+
+exemplo
+``` bash
+    pip install flask
+```
+
+para exportar  um arquivo das dependencias instaladas no seu ambiente virtual ou python :
+
+1- vamos informar ao pip que pretendemos exportar a lista de dependencias, utilizando o comando:
+* pip freeze
+
+exemplo de uso:
+```bash
+    pip freeze
+```
+2- executamos o comando freeze com a indicação do nome arquivo que vai conter a lista de dependencias:
+
+* pip freeze > <"nome-arquivo-dependencias">
+
+exemplo comando:
+```bash
+    pip freeze > requirements.txt
+```
 
 
 
-pip install flask
+### rotina comandos git para trabalhar com projetos gerenciados pelo git
 
-pip freeze
+git clone <link-do-repositorio-gethub>
 
-pip freeze > requirements.txt
+git pull
+git fetch --all
 
-pip install -r requirements.txt
+git checkout -b <nome-branch>
 
-### rotina comandos git
+git add .
 
-pip install flask_cors
+git commit -m "<descrição-do-commit>"
+
+git push
 
 git push --set-upstream origin [branch]
+
+
+
 ## drive
 
 pip install mysql-connector-python

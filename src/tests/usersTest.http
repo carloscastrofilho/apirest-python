@@ -8,11 +8,10 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-
-    "login": "teste-33@teste.com",
-    "password": "123",
-    "name" : "teste-33"
-  }
+  "login": "teste-33@teste.com",
+  "password": "123",
+  "name" : "teste-33"
+}
 
 ###
 PUT http://localhost:5000/users/19
