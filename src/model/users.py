@@ -105,11 +105,3 @@ def put(idvalue):
             
     except Exception as e:
         return jsonify({"error": str(e)}), 500    
-
-
-# def get():
-#     try:
-#        #codigo metodo
-#        return 
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
