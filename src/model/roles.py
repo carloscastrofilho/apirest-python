@@ -47,26 +47,21 @@ def post():
         dataBody = request.get_json(force=True)
         
         # Mapeia os dados esperados do corpo
-        login = dataBody.get('login')
-        password = dataBody.get('password')
-        name = dataBody.get('name')
+        role = dataBody.get('role')       
         
-        
-        if not login:
-            return jsonify({"error": "O campo 'login' é obrigatório."}), 400
+        if not role:
+            return jsonify({"error": "O campo 'role' é obrigatório."}), 400
             
         with db_connect.connect() as conn:
             # SEGURANÇA: Usando parâmetros vinculados (:nome, :apelido, etc.)
             query_text = text(f"""
-                INSERT INTO {tableName} (login, password ,name )
-                VALUES (:login , :password , :name )
+                INSERT INTO {tableName} ( role)
+                VALUES (:role )
             """)
             
             # Executa a query com um dicionário de parâmetros
             result = conn.execute(query_text, {
-                "login": login, 
-                "password": password, 
-                "name": name
+                "role": role
             })
             
             conn.commit()

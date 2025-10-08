@@ -8,8 +8,7 @@ POST http://localhost:5000/roles
 Content-Type: application/json
 
 {
-
-    "role": "USER"
+  "role": "ADMIN"
 }
 
 ###
@@ -17,11 +16,8 @@ PUT http://localhost:5000/roles/1
 Content-Type: application/json
 
 {
-    "active": 0,
-    "login": "teste@teste.com",
-    "name": "teste",
-    "password": "123"
-  }
+  "role": "ADMINISTRATO"
+}
 
 ###
-DELETE  http://localhost:5000/roles/12
+DELETE  http://localhost:5000/roles/2

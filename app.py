@@ -3,7 +3,6 @@ from flask_cors import CORS
 
 # Imports proprios
 from src.model import users
-from src.model import contacts 
 from src.model import roles
  
 app = Flask(__name__)
@@ -14,7 +13,6 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # Mapeamento de rotas
 route_map = {
     'users': users,
-    'contacts': contacts, 
     'roles': roles
 }
 
